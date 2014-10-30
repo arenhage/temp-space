@@ -12,11 +12,12 @@ block content
 	div.container
 		div.row
 			div.col-md-12
-				div.input-group.input-group-lg.col-md-6.col-md-offset-3
-					span.input-group-addon #
-					input(type="text" placeholder="identifier" id="identifier_in").form-control
-					span.input-group-btn
-						button.btn.btn-default(type="button" onclick='Index.setRandomIdentifier("identifier_in")')
-							span.glyphicon.glyphicon-refresh
-						button.btn.btn-default(type="button") Go!
+				form(action="/space/create", method="GET")
+					div.input-group.input-group-lg.col-md-6.col-md-offset-3
+						span.input-group-addon #
+						input(type="text" placeholder="identifier" name="identifier" id="identifier").form-control
+						span.input-group-btn
+							button.btn.btn-default(type="button" onclick='Index.setRandomIdentifier("identifier")')
+								span.glyphicon.glyphicon-refresh
+							button.btn.btn-default(type="submit") Go!
 						

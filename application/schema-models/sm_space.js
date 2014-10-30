@@ -1,7 +1,9 @@
 var mongoose = require('mongoose');
 
 var spaceSchema = new mongoose.Schema({
-	title: { type: String }
+	identifier : { type: String },
+	items: { type: Array },
+	createdAt: { type: Date }
 });
 
 exports.Space = mongoose.model('Space', spaceSchema);

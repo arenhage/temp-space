@@ -31,7 +31,8 @@ if(app.get('env') == 'development') {
 
 //routes ===========================================
 app.get('/', routes.index);
-app.get('/space', routeSpace.list);
+app.get('/space/list/:identifier', routeSpace.list);
+app.get('/space/create', routeSpace.add);
 
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + app.get('port'));

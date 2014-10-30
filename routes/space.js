@@ -2,17 +2,32 @@
 /*
  * GET home page.
  */
-var spaceFactory = require('../app/schema-models/space');
+var Space = require('../application/schema-models/sm_space').Space;
 
-exports.list = function(req, res){
-	var obj = new spaceFactory.Space({
-		title: 'Thor'
-	});
-
-	obj.save(function(err, data) {
-		if (err) return console.error(err);
-		console.dir(data);
-	});
-	
-	res.send('response');
+exports.list = function(req, res) {
+	if(req.params.identifier) {
+		Space.findOne({'identifier':req.params.identifier}, function (err, data) {
+			res.render('space', { 
+				space: data
+			});
+		});
+	}
 };
+
+exports.add = function(req, res) {
+	req.params.identifier = req.query.identifier;
+	
+	if(req.params.identifier != null) {
+		var obj = new Space({
+			identifier: req.params.identifier,
+			items: [],
+			createdAt: new Date()
+		});
+
+		obj.save(function(err, data) {
+			if (err) return console.error(err);
+		});	
+	}
+	
+	res.redirect('/space/list/'+req.params.identifier);
+}

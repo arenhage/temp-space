@@ -8,6 +8,7 @@
   "dependencies": {
     "express": "3.2.6",
     "jade": "*",
+    "ejs": "*",
     "mongoose": "*",
     "blueimp-file-upload-expressjs": "*"
   }

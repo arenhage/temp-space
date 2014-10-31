@@ -6,7 +6,8 @@ exports.list = function(req, res) {
 	if(req.params.space_id) {
 		Space.findBySpaceId(req.params.space_id, function (err, data) {
 			res.render('space', { 
-				space: data
+				space: data,
+				title: 'temp-space'
 			});
 		});
 	}

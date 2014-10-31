@@ -12,12 +12,12 @@ block content
 	div.container
 		div.row
 			div.col-md-12
-				form(action="/space/create", method="GET")
+				form(action="/space/create", method="POST")
 					div.input-group.input-group-lg.col-md-6.col-md-offset-3
 						span.input-group-addon #
-						input(type="text" placeholder="identifier" name="identifier" id="identifier").form-control
+						input(type="text" placeholder="space_id" name="space_id" id="space_id").form-control
 						span.input-group-btn
-							button.btn.btn-default(type="button" onclick='Index.setRandomIdentifier("identifier")')
+							button.btn.btn-default(type="button" onclick='Index.setRandomIdentifier("space_id")')
 								span.glyphicon.glyphicon-refresh
 							button.btn.btn-default(type="submit") Go!
 						

@@ -9,12 +9,21 @@ block content
 				div.col-md-6.col-md-offset-3
 					blockquote <strong>#{title}</strong> is an on the fly, easy to use content sharing agent which allows you to upload and share files on a sharable space
 	
-	table.table.table-striped
-		thead
-			tr
-				th identifier
-		tbody
-			if space
+	form(action="/upload" method="post" enctype="multipart/form-data")
+		input(type="file" name="file" id="file")
+		br
+		input(type="submit" name="submit" value="Submit")
+	
+	if space
+		table.table.table-striped
+			thead
+				tr
+					th identifier
+			tbody
 				each item in space.items.length ? space.items : ['There are no values'] 
 					tr
 						td #{item}
+	else
+		h3.text-center
+			span.glyphicon.glyphicon-info-sign
+			p The Space you have requested is no longer available 

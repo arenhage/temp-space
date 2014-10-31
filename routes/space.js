@@ -1,12 +1,10 @@
-
-/*
- * GET home page.
- */
+// Space Routes =================================================
 var Space = require('../application/schema-models/sm_space').Space;
+var spaceService = require('../application/spaceService.js');
 
 exports.list = function(req, res) {
-	if(req.params.identifier) {
-		Space.findOne({'identifier':req.params.identifier}, function (err, data) {
+	if(req.params.space_id) {
+		Space.findBySpaceId(req.params.space_id, function (err, data) {
 			res.render('space', { 
 				space: data
 			});
@@ -15,11 +13,9 @@ exports.list = function(req, res) {
 };
 
 exports.add = function(req, res) {
-	req.params.identifier = req.query.identifier;
-	
-	if(req.params.identifier != null) {
+	if(req.body.space_id != null) {
 		var obj = new Space({
-			identifier: req.params.identifier,
+			space_id: req.body.space_id,
 			items: [],
 			createdAt: new Date()
 		});
@@ -29,5 +25,5 @@ exports.add = function(req, res) {
 		});	
 	}
 	
-	res.redirect('/space/list/'+req.params.identifier);
+	res.redirect('/space/'+req.body.space_id);
 }

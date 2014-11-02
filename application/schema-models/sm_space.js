@@ -3,7 +3,6 @@ var mongoose = require('mongoose');
 //schema =================================================
 var spaceSchema = new mongoose.Schema({
 	space_id : { type: String },
-	items: { type: Array },
 	createdAt: { type: Date } //{ type: Date, expires: 60 }
 });
 

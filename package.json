@@ -10,6 +10,7 @@
     "jade": "*",
     "ejs": "*",
     "mongoose": "*",
-    "blueimp-file-upload-expressjs": "*"
+    "blueimp-file-upload-expressjs": "*",
+    "gridfs-stream": "*"
   }
 }

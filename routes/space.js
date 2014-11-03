@@ -17,7 +17,7 @@ exports.list = function(req, res) {
 				FSFile.findByMetadataSpaceId(req.params.spaceId, function (err, files) {
 					res.render('space', { 
 						space: data,
-						files: files,
+						files: JSON.stringify(files),
 						spaceId: req.params.spaceId,
 						title: 'temp-space'
 					});	
@@ -58,18 +58,22 @@ exports.upload = function(req, res) {
 			uploadDateMillis: new Date().getTime()
 		}
 	}).on('close', function(file) {
-		console.log(file.filename);
+		res.send(file);
 	});
 
 	// open a stream to the temporary file created by Express...
 	fs.createReadStream(tempfile)
 	.on('end', function() {
-		res.send('OK');
+		//res.send('OK');
 	})
 	.on('error', function() {
-		res.send('ERR');
+		//res.send('ERR');
 	})
 	.pipe(writestream);	//pipe it to gfs writestream and store it in the database
+};
+
+exports.retreive = function(req, res) {
+	
 };
 
 exports.download = function(req, res) {

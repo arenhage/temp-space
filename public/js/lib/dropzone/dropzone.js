@@ -415,7 +415,7 @@ require.register("dropzone/lib/dropzone.js", function (exports, module) {
         return this.element.classList.remove("dz-started");
       },
       addedfile: function(file) {
-        var node, removeFileEvent, removeLink, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _results;
+        var node, removeFileEvent, removeLink, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _ref3, _results;
         if (this.element === this.previewsContainer) {
           this.element.classList.add("dz-started");
         }
@@ -433,9 +433,18 @@ require.register("dropzone/lib/dropzone.js", function (exports, module) {
             node = _ref1[_j];
             node.innerHTML = this.filesize(file.size);
           }
+          
+          if(file.files_id) {
+        	  file.previewTemplate.appendChild(Dropzone.createElement('<div hidden class="dz-files-id"><span data-dz-files-id>' + file.files_id + '</span></div>'));  
+          }
           if (this.options.addRemoveLinks) {
-            file._removeLink = Dropzone.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\" data-dz-remove>" + this.options.dictRemoveFile + "</a>");
-            file.previewElement.appendChild(file._removeLink);
+        	  //file._removeLink = Dropzone.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\" data-dz-remove>" + this.options.dictRemoveFile + "</a>");
+        	  file._removeLink = Dropzone.createElement("<a class=\"dz-delete btn btn-danger btn-sm btnSpacing\" href=\"javascript:undefined;\" data-dz-remove>" + this.options.dictRemoveFile + "</a>");
+        	  file.previewElement.appendChild(file._removeLink);
+          }
+          if (this.options.addDownloadLinks) {
+        	  file._downloadLink = Dropzone.createElement("<a class=\"dz-download btn btn-primary btn-sm btnSpacing\" href=\"javascript:undefined;\"><span class=\"glyphicon glyphicon-download-alt\"></span></a>");
+        	  file.previewElement.appendChild(file._downloadLink);
           }
           removeFileEvent = (function(_this) {
             return function(e) {
@@ -549,6 +558,7 @@ require.register("dropzone/lib/dropzone.js", function (exports, module) {
       maxfilesexceeded: noop,
       maxfilesreached: noop,
       previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>"
+      //previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div><div hidden class=\"dz-files-id\"><span data-dz-files-id></span></div></div>\n"
     };
 
     extend = function() {

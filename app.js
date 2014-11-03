@@ -43,6 +43,9 @@ conn.once('open', function callback () {
 	//create a new space
 	app.post('/space', routeSpace.add);
 
+	//retreive file objects
+	app.post('/space/retreive', routeSpace.retreive);
+	
 	//download file	
 	app.get('/space/download', routeSpace.download);
 	

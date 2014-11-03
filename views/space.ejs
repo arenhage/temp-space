@@ -53,4 +53,10 @@
 			</p>
 		</div>
 	</div>
+	<script>
+		$(document).ready(function() {
+			Space.files = <%- files %>;
+			Space.initDropzone(Space.files);
+		});
+	</script>
 </html>

@@ -5,8 +5,6 @@ var path		= require('path');
 var mongoose	= require('mongoose');
 var routes 		= require('./routes/index');
 var routeSpace	= require('./routes/space');
-var fs 			= require('fs');
-var Grid 		= require('gridfs-stream');
 
 //database ===========================================
 var uri = 'mongodb://localhost/dasdatabase';
@@ -17,7 +15,6 @@ var conn = mongoose.createConnection(uri);
 conn.on('error', console.error);
 conn.once('open', function callback () {
 	var app = express();
-	var gfs = Grid(conn.db, mongoose.mongo);
 	
 	//configuration ===========================================
 	app.set('port', process.env.PORT || 3000);
@@ -47,33 +44,10 @@ conn.once('open', function callback () {
 	app.post('/space', routeSpace.add);
 
 	//download file	
-	app.get('/space/download', function(req, res) {
-		//TODO
-	});
+	app.get('/space/download', routeSpace.download);
 	
 	//upload file
-	app.post('/space/upload', function(req, res) {
-		var tempfile    		= req.files.file.path;
-		var originalFilename    = req.files.file.name;
-		var writestream = gfs.createWriteStream({ 
-			filename: originalFilename,
-			metadata: {
-				spaceId: req.body.spaceId
-			}
-		}).on('close', function(file) {
-			console.log(file.filename);
-		});
-
-		// open a stream to the temporary file created by Express...
-		fs.createReadStream(tempfile)
-		.on('end', function() {
-			res.send('OK');
-		})
-		.on('error', function() {
-			res.send('ERR');
-		})
-		.pipe(writestream);	//pipe it to gfs writestream and store it in the database
-	});
+	app.post('/space/upload', routeSpace.upload);
 
 	//start server
 	http.createServer(app).listen(app.get('port'), function(){

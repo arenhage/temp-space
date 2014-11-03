@@ -32,13 +32,17 @@
 			</div>
 		</div>
 		<div class="container">
-			<div id="simpleUpload">
-				<div id="dropzone">
-					<form action="/space/upload" class="dropzone" id="my-dropzone">
-						<input type="hidden" name="spaceId" value="<%= spaceId %>">
-					</form>
+			<%if (space != null) { %>
+				<div id="simpleUpload">
+					<div id="dropzone">
+						<form action="/space/upload" class="dropzone" id="my-dropzone">
+							<input type="hidden" name="spaceId" value="<%= spaceId %>">
+						</form>
+					</div>
 				</div>
-			</div>
+			<% } else { %>  
+				<h1 class="text-center">The space you tried to access is not available</h1>
+			<% } %>
 		</div>
 	</body>
 	<div class="footer">

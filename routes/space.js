@@ -1,5 +1,6 @@
 //Space Routes =================================================
 var Space 		= require('../application/schema-models/sm_space').Space;
+var FSFile 		= require('../application/schema-models/sm_files').FSFile;
 var mongoose	= require('mongoose');
 var fs 			= require('fs');
 var Grid 		= require('gridfs-stream');
@@ -12,11 +13,22 @@ var gfs 	= Grid(conn.db, mongoose.mongo);
 exports.list = function(req, res) {
 	if(req.params.spaceId) {
 		Space.findBySpaceId(req.params.spaceId, function (err, data) {
-			res.render('space', { 
-				space: data,
-				spaceId: req.params.spaceId,
-				title: 'temp-space'
-			});
+			if(data != null) {
+				FSFile.findByMetadataSpaceId(req.params.spaceId, function (err, files) {
+					res.render('space', { 
+						space: data,
+						files: files,
+						spaceId: req.params.spaceId,
+						title: 'temp-space'
+					});	
+				});
+			}
+			else {
+				res.render('notavailable', {
+					spaceId: req.params.spaceId,
+					title: 'temp-space'
+				});
+			}
 		});
 	}
 };

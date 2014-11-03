@@ -36,23 +36,30 @@ conn.once('open', function callback () {
 	}
 
 	//routes ===========================================
+	
+	//index
 	app.get('/', routes.index);
+	
+	//retreive space
 	app.get('/space/:space_id', routeSpace.list);
+	
+	//create a new space
 	app.post('/space', routeSpace.add);
-	app.get('/space/upload', function(req, res) {
-//		uploader.get(req, res, function(obj) {
-//		res.send(JSON.stringify(obj));
-//		});
+
+	//download file	
+	app.get('/space/download', function(req, res) {
+		//TODO
 	});
+	
+	//upload file
 	app.post('/space/upload', function(req, res) {
-//		uploader.post(req, res, function(obj) {
-//		res.send(JSON.stringify(obj));
-//		});
-		
 		var tempfile    		= req.files.file.path;
 		var originalFilename    = req.files.file.name;
 		var writestream = gfs.createWriteStream({ 
 			filename: originalFilename
+		}).on('close', function(file) {
+			//TODO: add a pointer to the files_id to the item list for the space
+			console.log(file.filename);
 		});
 
 		// open a stream to the temporary file created by Express...
@@ -63,16 +70,11 @@ conn.once('open', function callback () {
 		.on('error', function() {
 			res.send('ERR');
 		})
-		.pipe(writestream);	//pipe it to gfs writestream
-	});
-	app.delete('/uploaded/files/:name', function(req, res) {
-//		uploader.delete(req, res, function(obj) {
-//		res.send(JSON.stringify(obj));
-//		});
+		.pipe(writestream);	//pipe it to gfs writestream and store it in the database
 	});
 
+	//start server
 	http.createServer(app).listen(app.get('port'), function(){
 		console.log('Express server listening on port ' + app.get('port'));
 	});
-	
 });

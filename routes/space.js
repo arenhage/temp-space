@@ -3,11 +3,11 @@ var Space = require('../application/schema-models/sm_space').Space;
 var spaceService = require('../application/spaceService.js');
 
 exports.list = function(req, res) {
-	if(req.params.space_id) {
-		Space.findBySpaceId(req.params.space_id, function (err, data) {
+	if(req.params.spaceId) {
+		Space.findBySpaceId(req.params.spaceId, function (err, data) {
 			res.render('space', { 
 				space: data,
-				space_id: req.params.space_id,
+				spaceId: req.params.spaceId,
 				title: 'temp-space'
 			});
 		});
@@ -15,10 +15,9 @@ exports.list = function(req, res) {
 };
 
 exports.add = function(req, res) {
-	if(req.body.space_id != null) {
+	if(req.body.spaceId != null) {
 		var obj = new Space({
-			space_id: req.body.space_id,
-			items: [],
+			spaceId: req.body.spaceId,
 			createdAt: new Date()
 		});
 
@@ -27,5 +26,5 @@ exports.add = function(req, res) {
 		});	
 	}
 	
-	res.redirect('/space/'+req.body.space_id);
+	res.redirect('/space/'+req.body.spaceId);
 }

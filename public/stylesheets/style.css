@@ -9,3 +9,7 @@ a {
 .jumbotron {
 	background-color: #db8d3c !important;
 }
+
+.btnSpacing {
+	margin-right: 2px;
+}

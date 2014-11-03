@@ -41,7 +41,7 @@ conn.once('open', function callback () {
 	app.get('/', routes.index);
 	
 	//retreive space
-	app.get('/space/:space_id', routeSpace.list);
+	app.get('/space/:spaceId', routeSpace.list);
 	
 	//create a new space
 	app.post('/space', routeSpace.add);
@@ -56,9 +56,11 @@ conn.once('open', function callback () {
 		var tempfile    		= req.files.file.path;
 		var originalFilename    = req.files.file.name;
 		var writestream = gfs.createWriteStream({ 
-			filename: originalFilename
+			filename: originalFilename,
+			metadata: {
+				spaceId: req.body.spaceId
+			}
 		}).on('close', function(file) {
-			//TODO: add a pointer to the files_id to the item list for the space
 			console.log(file.filename);
 		});
 

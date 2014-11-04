@@ -42,15 +42,15 @@ conn.once('open', function callback () {
 	
 	//create a new space
 	app.post('/space', routeSpace.add);
-
-	//retreive file objects
-	app.post('/space/retreive', routeSpace.retreive);
 	
 	//download file	
-	app.get('/space/download', routeSpace.download);
+	app.get('/space/file/download/:filesId', routeSpace.download);
+	
+	//download file	
+	app.post('/space/file/remove', routeSpace.remove);
 	
 	//upload file
-	app.post('/space/upload', routeSpace.upload);
+	app.post('/space/file/upload', routeSpace.upload);
 
 	//start server
 	http.createServer(app).listen(app.get('port'), function(){

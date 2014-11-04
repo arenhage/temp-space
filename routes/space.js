@@ -14,14 +14,35 @@ exports.list = function(req, res) {
 	if(req.params.spaceId) {
 		Space.findBySpaceId(req.params.spaceId, function (err, data) {
 			if(data != null) {
-				FSFile.findByMetadataSpaceId(req.params.spaceId, function (err, files) {
-					res.render('space', { 
-						space: data,
-						files: JSON.stringify(files),
-						spaceId: req.params.spaceId,
-						title: 'temp-space'
-					});	
-				});
+
+				//using mongoose
+//				FSFile.findByMetadataSpaceId(req.params.spaceId, function (err, files) {
+//				res.render('space', { 
+//				space: data,
+//				files: JSON.stringify(files),
+//				spaceId: req.params.spaceId,
+//				title: 'temp-space'
+//				});	
+//				});
+
+				//using gfs
+				gfs.files.find({ 'metadata.spaceId': req.params.spaceId}).toArray(function (err, files) {
+					if(err) {
+						console.log(err)
+						res.send("ERROR");
+					}
+					else {
+						var expireIn = ((new Date(data.createdAt).getTime()+900000) - new Date().getTime())/1000
+						console.log(expireIn);
+						res.render('space', { 
+							space: data,
+							expireIn: expireIn,
+							files: JSON.stringify(files),
+							spaceId: req.params.spaceId,
+							title: 'temp-space'
+						});
+					}
+				})
 			}
 			else {
 				res.render('notavailable', {
@@ -72,10 +93,35 @@ exports.upload = function(req, res) {
 	.pipe(writestream);	//pipe it to gfs writestream and store it in the database
 };
 
-exports.retreive = function(req, res) {
-	
+exports.download = function(req, res) {
+	if(req.params.filesId) {
+		FSFile.findOne({'_id':req.params.filesId}, function (err, data) {
+			if(err) {
+				//TODO:
+			}
+			else {
+				res.setHeader('Content-type', data.contentType);
+				res.setHeader('Content-disposition', 'attachment; filename=' + data.filename);
+				var readstream = gfs.createReadStream({
+					_id: req.params.filesId,
+				});
+				readstream.pipe(res);	
+			}
+		});
+	}
+	else {
+		res.send("ERROR");
+	}
 };
 
-exports.download = function(req, res) {
-	
+exports.remove = function(req, res) {
+	if(req.body.filesId) {
+		gfs.remove({'_id':req.body.filesId}, function (err) {
+			if (err) return handleError(err);
+			res.send('success');
+		});
+	}
+	else {
+		res.send("ERROR");
+	}
 };

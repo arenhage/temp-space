@@ -8,8 +8,9 @@ a {
 
 .jumbotron {
 	background-color: #db8d3c !important;
+	margin-bottom: 0 !important;
 }
 
 .btnSpacing {
-	margin-right: 2px;
+	margin: 2px;
 }

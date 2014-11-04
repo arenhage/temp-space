@@ -434,17 +434,17 @@ require.register("dropzone/lib/dropzone.js", function (exports, module) {
             node.innerHTML = this.filesize(file.size);
           }
           
-          if(file.files_id) {
-        	  file.previewTemplate.appendChild(Dropzone.createElement('<div hidden class="dz-files-id"><span data-dz-files-id>' + file.files_id + '</span></div>'));  
-          }
           if (this.options.addRemoveLinks) {
         	  //file._removeLink = Dropzone.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\" data-dz-remove>" + this.options.dictRemoveFile + "</a>");
         	  file._removeLink = Dropzone.createElement("<a class=\"dz-delete btn btn-danger btn-sm btnSpacing\" href=\"javascript:undefined;\" data-dz-remove>" + this.options.dictRemoveFile + "</a>");
         	  file.previewElement.appendChild(file._removeLink);
           }
-          if (this.options.addDownloadLinks) {
-        	  file._downloadLink = Dropzone.createElement("<a class=\"dz-download btn btn-primary btn-sm btnSpacing\" href=\"javascript:undefined;\"><span class=\"glyphicon glyphicon-download-alt\"></span></a>");
-        	  file.previewElement.appendChild(file._downloadLink);
+          if(file.files_id) {
+        	  file.previewTemplate.appendChild(Dropzone.createElement('<div hidden class="dz-files-id"><span data-dz-files-id>' + file.files_id + '</span></div>'));
+        	  if (this.options.addDownloadLinks) {
+        		  file._downloadLink = Dropzone.createElement('<a class="dz-download btn btn-primary btn-sm btnSpacing" href="' + file.downloadLink + '"><span class="glyphicon glyphicon-download-alt"></span></a>');
+        		  file.previewElement.appendChild(file._downloadLink);
+        	  }
           }
           removeFileEvent = (function(_this) {
             return function(e) {

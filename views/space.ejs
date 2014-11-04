@@ -8,10 +8,12 @@
 		
 		<link rel="stylesheet" href="/stylesheets/dropzone/dropzone.css">
 		<link rel="stylesheet" href="/stylesheets/dropzone/basic.css">
+		<link rel="stylesheet" href="/stylesheets/toastr.min.css">
 		
 		<script type="text/javascript" src='/js/lib/jquery-1.11.1.min.js'></script>
 		<script type="text/javascript" src='/js/lib/bootstrap.min.js'></script>
 		<script type="text/javascript" src="/js/lib/dropzone/dropzone.js"></script>
+		<script type="text/javascript" src="/js/lib/toastr.min.js"></script>
 		
 		<script src='/js/misc/util.js'></script>
 		<script src='/js/misc/temp-space.js'></script>
@@ -35,7 +37,7 @@
 			<%if (space != null) { %>
 				<div id="simpleUpload">
 					<div id="dropzone">
-						<form action="/space/upload" class="dropzone" id="my-dropzone">
+						<form action="/space/file/upload" class="dropzone" id="my-dropzone">
 							<input type="hidden" name="spaceId" value="<%= spaceId %>">
 						</form>
 					</div>
@@ -57,6 +59,9 @@
 		$(document).ready(function() {
 			Space.files = <%- files %>;
 			Space.initDropzone(Space.files);
+			toastr.options.positionClass = 'toast-bottom-right'
+			
+			var seconds = <%= expireIn %>;
 		});
 	</script>
 </html>

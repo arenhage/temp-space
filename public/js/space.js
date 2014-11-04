@@ -49,6 +49,7 @@ var Space = {
 					addRemoveLinks: true,
 					addDownloadLinks: true,
 					dictRemoveFile: "Remove",
+					createImageThumbnails: false,
 
 					init: function() {
 						var self = this;

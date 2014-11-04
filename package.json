@@ -7,10 +7,9 @@
   },
   "dependencies": {
     "express": "3.2.6",
-    "jade": "*",
-    "ejs": "*",
-    "mongoose": "*",
-    "blueimp-file-upload-expressjs": "*",
-    "gridfs-stream": "*"
+    "ejs": "1.0.0",
+    "mongoose": "3.8.18",
+    "gridfs-stream": "0.5.1",
+    "node-schedule": "0.1.13"
   }
 }

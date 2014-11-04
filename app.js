@@ -5,6 +5,7 @@ var path		= require('path');
 var mongoose	= require('mongoose');
 var routes 		= require('./routes/index');
 var routeSpace	= require('./routes/space');
+var schedule 	= require('node-schedule');
 
 //database ===========================================
 var uri = 'mongodb://localhost/dasdatabase';
@@ -32,6 +33,8 @@ conn.once('open', function callback () {
 		app.use(express.errorHandler());
 	}
 
+	//schedules ===========================================
+	
 	//routes ===========================================
 	
 	//index

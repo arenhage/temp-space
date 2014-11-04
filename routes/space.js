@@ -32,11 +32,11 @@ exports.list = function(req, res) {
 						res.send("ERROR");
 					}
 					else {
-						var expireIn = ((new Date(data.createdAt).getTime()+900000) - new Date().getTime())/1000
-						console.log(expireIn);
+						var offset = Space.schema.paths.createdAt.options.expires * 1000;
+						var expireAt = new Date(data.createdAt).getTime()+offset;
 						res.render('space', { 
 							space: data,
-							expireIn: expireIn,
+							expireAt: expireAt,
 							files: JSON.stringify(files),
 							spaceId: req.params.spaceId,
 							title: 'temp-space'

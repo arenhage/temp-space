@@ -7,5 +7,8 @@ var Util = {
 			return (c=='x' ? r : (r&0x7|0x8)).toString(16);
 		});
 		return uuid;
+	},
+	copyUrlToClipboard: function() {
+		window.prompt("Copy to clipboard: Ctrl+C, Enter", window.location.href);
 	}
 };

@@ -14,3 +14,16 @@ a {
 .btnSpacing {
 	margin: 2px;
 }
+
+.operations {
+	margin-bottom: 5px;
+}
+
+.label-spacing {
+	margin-right: 5px;
+}
+
+.social-bar {
+	position: absolute;
+	bottom: 52px;;
+}

@@ -2,22 +2,43 @@
 <html>
 	<head>
 		<title><%= title %></title>
-		<link rel='stylesheet' href='/stylesheets/style.css' />
+		
+		<!-- jquery -->
+		<script type="text/javascript" src='/js/lib/jquery-1.11.1.min.js'></script>
+		
+		<!-- bootstrap -->
 		<link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
 		<link rel='stylesheet' href='/stylesheets/sticky-footer-navbar.css' />
+		<script type="text/javascript" src='/js/lib/bootstrap.min.js'></script>
 		
-		<script src='/js/lib/jquery-1.11.1.min.js'></script>
-		<script src='/js/lib/bootstrap.min.js'></script>
+		<!-- dropzone -->
+		<link rel="stylesheet" href="/stylesheets/dropzone/dropzone.css">
+		<link rel="stylesheet" href="/stylesheets/dropzone/basic.css">
+		<script type="text/javascript" src="/js/lib/dropzone/dropzone.js"></script>
 		
+		<!-- toastr -->
+		<link rel="stylesheet" href="/stylesheets/toastr.min.css">
+		<script type="text/javascript" src="/js/lib/toastr.min.js"></script>
+		
+		<!-- countdown -->
+		<script type="text/javascript" src="/js/lib/countdown/jquery.countdown.min.js"></script>
+		
+		<!-- share-button -->
+		<link rel="stylesheet" href="/stylesheets/jquery.share.css">
+		<script type="text/javascript" src="/js/lib/jquery.share.js"></script>
+		
+		<!-- custom -->
+		<link rel='stylesheet' href='/stylesheets/style.css' />
 		<script src='/js/misc/util.js'></script>
 		<script src='/js/misc/temp-space.js'></script>
-		
 		<script src='/js/index.js' type='text/javascript'></script>
 	</head>
 	<body>
 		<div class="jumbotron">
 			<div class="container">
-				<img src="/images/logo.png" alt="Responsive image" height="160" width="160" class="img-responsive center-block"></img>
+				<a href="/">
+					<img src="/images/logo.png" alt="Responsive image" height="160" width="160" class="img-responsive center-block"></img>
+				</a>
 				<div class="row">
 					<div class="col-md-6 col-md-offset-3">
 						<blockquote>
@@ -46,6 +67,7 @@
 			</div>
 		</div>
 	</body>
+	<div id="social-bar" class="social-bar"></div>
 	<div class="footer">
 		<div class="container">
 			<p class="text-muted text-center">
@@ -54,4 +76,13 @@
 			</p>
 		</div>
 	</div>
+	<script>
+		$(document).ready(function() {
+			$('#social-bar').share({
+				networks: ['email','pinterest','googleplus','digg','facebook','twitter','linkedin'],
+		        theme: 'square',
+		        urlToShare: 'http://temp-space.ws'
+		    });
+		});
+	</script>
 </html>

@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title><%= title %></title>
 		
 		<!-- jquery -->
@@ -39,22 +42,21 @@
 				<a href="/">
 					<img src="/images/logo.png" alt="Responsive image" height="160" width="160" class="img-responsive center-block"></img>
 				</a>
-				<div class="row">
-					<div class="col-md-6 col-md-offset-3">
-						<blockquote>
-							<strong><%= title %></strong> is what it is... a temporary sharable file space.
-						</blockquote>
-					</div>
+				<div class="page-header">
+					<h3 class="text-center"><strong><%= title %></strong> is what it is... a temporary sharable file space.</h3>
 				</div>
 			</div>
 		</div>
+		
 		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
+			<div class="row row-centered">
+				<div class="col-xs-12 col-md-12 col-centered">
 					<form action="/space", method="POST">
-						<div class="input-group input-group-lg col-md-6 col-md-offset-3">
+						<div class="input-group input-group-md">
 							<span class="input-group-addon">#</span>
+							
 							<input type="text" placeholder="spaceId" name="spaceId" id="spaceId" class="form-control">
+							
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="button" onclick='Index.setRandomIdentifier("spaceId")'>
 									<span class="glyphicon glyphicon-refresh">
@@ -65,28 +67,46 @@
 					</form>
 				</div>
 			</div>
+			<div class="row row-centered">
+				<div class="col-xs-12 col-md-12 col-centered">
+					<div class="page-header">
+						<h2>About</h2>
+					</div>
+					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+				</div>
+			</div>
 		</div>
+		
+		<div style="padding-top:5px;">
+			<div class="footer">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-6">
+							<div id="social-bar" class="social-bar text-center" style=""></div>
+						</div>
+						<div class="col-md-6">
+							<p class="text-muted text-center">
+								&copy;&nbsp;
+								<a href='#'>Daniel Arenhage</a> 2014
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script>
+			$(document).ready(function() {
+				toastr.options.positionClass = 'toast-bottom-right'
+				var err = <%= err %>;
+				if(err) toastr.error(err.err);
+				
+				$('#social-bar').share({
+					networks: ['email','pinterest','googleplus','digg','facebook','twitter','linkedin'],
+			        theme: 'square',
+			        urlToShare: 'http://temp-space.ws'
+			    });
+			});
+		</script>
 	</body>
-	<div id="social-bar" class="social-bar"></div>
-	<div class="footer">
-		<div class="container">
-			<p class="text-muted text-center">
-				&copy;&nbsp;
-				<a href='#'>Daniel Arenhage</a> 2014
-			</p>
-		</div>
-	</div>
-	<script>
-		$(document).ready(function() {
-			toastr.options.positionClass = 'toast-bottom-right'
-			var err = <%= err %>;
-			if(err) toastr.error(err.err);
-			
-			$('#social-bar').share({
-				networks: ['email','pinterest','googleplus','digg','facebook','twitter','linkedin'],
-		        theme: 'square',
-		        urlToShare: 'http://temp-space.ws'
-		    });
-		});
-	</script>
 </html>

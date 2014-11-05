@@ -109,7 +109,7 @@
                 pinterest:{url:'http://pinterest.com/pin/create/button/?url=|u|&media=&description=|d|'},
                 posterous:{url:'http://posterous.com/share?linkto=|u|&title=|t|'},
                 stumbleupon:{url:'http://www.stumbleupon.com/submit?url=|u|&title=|t|'},
-                email:{url:'mailto:?subject=|t|'}
+                email:{url:'mailto:?subject=|t| |u|'}
             }
         }
      

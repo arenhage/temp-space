@@ -1,0 +1,12 @@
+{
+	"basic": {
+		"appName" : "tmp-space"
+	},
+	"express": {
+		"port": 3000
+	},
+	"mongo": {
+		"uri": "mongodb://localhost/tempspace",
+		"spaceExpires": 600
+	}
+}

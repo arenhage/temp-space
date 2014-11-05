@@ -3,13 +3,10 @@ var Space 		= require('../application/schema-models/sm_space').Space;
 var FSFile 		= require('../application/schema-models/sm_files').FSFile;
 var mongoose	= require('mongoose');
 var fs 			= require('fs');
-var Grid 		= require('gridfs-stream');
 var logger 		= require('log4js').getLogger();
 
-//database ===========================================
-var uri 	= 'mongodb://localhost/dasdatabase';
-var conn 	= mongoose.createConnection(uri);
-var gfs 	= Grid(conn.db, mongoose.mongo);
+//gridfs ===========================================
+var gfs = global.gridfs;
 
 exports.list = function(req, res) {
 	if(req.params.spaceId) {
@@ -22,7 +19,7 @@ exports.list = function(req, res) {
 //						space: data,
 //						files: JSON.stringify(files),
 //						spaceId: req.params.spaceId,
-//						title: 'temp-space'
+//						title: global.config.basic.appName
 //					});	
 //				});
 
@@ -40,7 +37,7 @@ exports.list = function(req, res) {
 							expireAt: expireAt,
 							files: JSON.stringify(files),
 							spaceId: req.params.spaceId,
-							title: 'temp-space'
+							title: global.config.basic.appName
 						});
 					}
 				})
@@ -48,7 +45,7 @@ exports.list = function(req, res) {
 			else {
 				res.render('notavailable', {
 					spaceId: req.params.spaceId,
-					title: 'temp-space'
+					title: global.config.basic.appName
 				});
 			}
 		});
@@ -68,7 +65,7 @@ exports.add = function(req, res) {
 				res.render('index', {
 					spaceId: req.body.spaceId,
 					err: JSON.stringify({err:"Unable To Create Space"}),
-					title: 'temp-space'
+					title: global.config.basic.appName
 				});
 			}
 			else {
@@ -81,7 +78,7 @@ exports.add = function(req, res) {
 		res.render('index', {
 			spaceId: req.body.spaceId,
 			err: JSON.stringify({err:"Unable To Create Space"}),
-			title: 'temp-space'
+			title: global.config.basic.appName
 		});
 	}
 };

@@ -74,7 +74,7 @@ exports.add = function(req, res) {
 		});
 	}
 	else {
-		logger.warning({"req.body.spaceId":req.body.spaceId});
+		logger.warn({"req.body.spaceId":req.body.spaceId});
 		res.render('index', {
 			spaceId: req.body.spaceId,
 			err: JSON.stringify({err:"Unable To Create Space"}),

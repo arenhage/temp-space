@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 //schema =================================================
 var spaceSchema = new mongoose.Schema({
-	spaceId : { type: String },
+	spaceId : { type: String, unique:true },
 	createdAt: { type: Date, expires: 60*15 }
 });
 

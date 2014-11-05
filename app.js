@@ -7,17 +7,43 @@ var routes 		= require('./routes/index');
 var routeSpace	= require('./routes/space');
 var schedule 	= require('node-schedule');
 
+var jog4jsConfig = {
+	"appenders": [
+		{
+			"type": "console" 
+		},
+		{
+			"type": "file", 
+			"filename":__dirname + "/log/app.log", 
+			"pattern":"-yyyy-MM-dd",
+			"alwaysIncludePattern": true
+		}
+	],
+	"replaceConsole": true
+};
+
+//log4js ===========================================
+var log4js = require("log4js");
+log4js.configure(jog4jsConfig);
+var logger = log4js.getLogger();
+
 //database ===========================================
 var uri = 'mongodb://localhost/dasdatabase';
-var db = mongoose.connection;
 mongoose.connect(uri);
-var conn = mongoose.createConnection(uri);
+var conn = mongoose.createConnection(uri, function(err) {
+	if(err) logger.error(err);
+});
 
-conn.on('error', console.error);
+conn.on('error', function(err) {
+	logger.error(err);
+});
 conn.once('open', function callback () {
+	logger.info("Connection open to MongoDB...");
 	var app = express();
 	
 	//configuration ===========================================
+	logger.info("Configuring express app...");
+	
 	app.set('port', process.env.PORT || 3000);
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'ejs');
@@ -34,8 +60,12 @@ conn.once('open', function callback () {
 	}
 
 	//schedules ===========================================
+	schedule.scheduleJob("*/15 * * * *", function(){
+		//TODO: remove fs.files and chunks that are older than 15 minutes.
+	});
 	
 	//routes ===========================================
+	logger.info("Creating express routes...");
 	
 	//index
 	app.get('/', routes.index);
@@ -57,6 +87,6 @@ conn.once('open', function callback () {
 
 	//start server
 	http.createServer(app).listen(app.get('port'), function(){
-		console.log('Express server listening on port ' + app.get('port'));
+		logger.info('Express server listening on port ' + app.get('port') + ' | ' + app.get('env') + ' mode');
 	});
 });

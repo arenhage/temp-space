@@ -83,7 +83,7 @@ var Space = {
 							var xhr = file.xhr;
 							var json = JSON.parse(xhr.response);
 							if (this.options.addDownloadLinks) {
-								file._downloadLink = Dropzone.createElement('<a class="dz-download btn btn-primary btn-sm btnSpacing" href="/space/file/download/' + json._id + '"><span class="glyphicon glyphicon-download-alt"></span></a>');
+								file._downloadLink = Dropzone.createElement('<a class="dz-download btn btn-primary btn-xs btnSpacing" href="/space/file/download/' + json._id + '"><span class="glyphicon glyphicon-download-alt"></span></a>');
 								file.previewElement.appendChild(file._downloadLink);
 							}
 							file.previewTemplate.appendChild(Dropzone.createElement('<div hidden class="dz-files-id"><span data-dz-files-id>' + json._id + '</span></div>'));

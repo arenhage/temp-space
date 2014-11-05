@@ -25,5 +25,7 @@ a {
 
 .social-bar {
 	position: absolute;
-	bottom: 52px;;
+	bottom: 5px;
+	left: 10px;
+	z-index: 1;
 }

@@ -4,6 +4,7 @@ var FSFile 		= require('../application/schema-models/sm_files').FSFile;
 var mongoose	= require('mongoose');
 var fs 			= require('fs');
 var Grid 		= require('gridfs-stream');
+var logger 		= require('log4js').getLogger();
 
 //database ===========================================
 var uri 	= 'mongodb://localhost/dasdatabase';
@@ -17,18 +18,18 @@ exports.list = function(req, res) {
 
 				//using mongoose
 //				FSFile.findByMetadataSpaceId(req.params.spaceId, function (err, files) {
-//				res.render('space', { 
-//				space: data,
-//				files: JSON.stringify(files),
-//				spaceId: req.params.spaceId,
-//				title: 'temp-space'
-//				});	
+//					res.render('space', { 
+//						space: data,
+//						files: JSON.stringify(files),
+//						spaceId: req.params.spaceId,
+//						title: 'temp-space'
+//					});	
 //				});
 
 				//using gfs
 				gfs.files.find({ 'metadata.spaceId': req.params.spaceId}).toArray(function (err, files) {
 					if(err) {
-						console.log(err)
+						logger.error(err);
 						res.send("ERROR");
 					}
 					else {
@@ -55,18 +56,34 @@ exports.list = function(req, res) {
 };
 
 exports.add = function(req, res) {
-	if(req.body.spaceId != null) {
+	if(req.body.spaceId != null && req.body.spaceId != "") {
 		var obj = new Space({
 			spaceId: req.body.spaceId,
 			createdAt: new Date()
 		});
 
 		obj.save(function(err, data) {
-			if (err) return console.error(err);
-		});	
+			if (err) {
+				logger.error(err);
+				res.render('index', {
+					spaceId: req.body.spaceId,
+					err: JSON.stringify({err:"Unable To Create Space"}),
+					title: 'temp-space'
+				});
+			}
+			else {
+				res.redirect('/space/'+req.body.spaceId);	
+			}
+		});
 	}
-
-	res.redirect('/space/'+req.body.spaceId);
+	else {
+		logger.warning({"req.body.spaceId":req.body.spaceId});
+		res.render('index', {
+			spaceId: req.body.spaceId,
+			err: JSON.stringify({err:"Unable To Create Space"}),
+			title: 'temp-space'
+		});
+	}
 };
 
 exports.upload = function(req, res) {
@@ -97,7 +114,8 @@ exports.download = function(req, res) {
 	if(req.params.filesId) {
 		FSFile.findOne({'_id':req.params.filesId}, function (err, data) {
 			if(err) {
-				//TODO:
+				logger.error(err);
+				res.send("Unable to obtain file, file is missing...");
 			}
 			else {
 				res.setHeader('Content-type', data.contentType);
@@ -118,7 +136,7 @@ exports.remove = function(req, res) {
 	if(req.body.filesId) {
 		gfs.remove({'_id':req.body.filesId}, function (err) {
 			if (err) return handleError(err);
-			res.send('success');
+			res.send('SUCCESS');
 		});
 	}
 	else {

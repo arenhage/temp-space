@@ -59,8 +59,8 @@
 								<button class="btn btn-default" type="button" onclick='Index.setRandomIdentifier("spaceId")'>
 									<span class="glyphicon glyphicon-refresh">
 								</button>
-								<button class="btn btn-default" type="submit">Go!</button>
-							</span>				
+								<button class="btn btn-default" type="submit" onclick=''>Go!</button>
+							</span>
 						</div>
 					</form>
 				</div>
@@ -78,6 +78,11 @@
 	</div>
 	<script>
 		$(document).ready(function() {
+			toastr.options.positionClass = 'toast-bottom-right'
+			var err = <%- err %>;
+			console.log(err);
+			if(err) toastr.error(err.err);
+			
 			$('#social-bar').share({
 				networks: ['email','pinterest','googleplus','digg','facebook','twitter','linkedin'],
 		        theme: 'square',

@@ -10,9 +10,11 @@ var logger 		= require('log4js').getLogger();
 var gfs	= global.gridfs;
 
 schedule.scheduleJob("*/10 * * * *", function() {
+	logger.info("Running periodic clearning...")
 	var offset = Space.schema.paths.createdAt.options.expires * 1000;
 	var now = new Date().getTime();
-	var tail = now - offset
+	var tail = now - offset;
+	var filesRemoved = 0;
 	
 	try {
 		FSFile.findByUploadDateLessThan(tail, function (err, files) {
@@ -21,9 +23,11 @@ schedule.scheduleJob("*/10 * * * *", function() {
 				for(file_index in files) {
 					gfs.remove({'_id':files[file_index]._id}, function (err) {
 						if(err) logger.error(err);
+						else filesRemoved++;
 					});
 				}
 			}
+			logger.info("Files removed: " + filesRemoved);
 		});
 	} catch(e) {
 		logger.error(e);

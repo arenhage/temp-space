@@ -38,12 +38,10 @@
 	</head>
 	<body>
 		<div class="jumbotron">
-			<div class="row row-centered">
-				<div class="col-xs-12 col-md-12 col-centered">
-					<span style="margin:5px;" class="label label-default btn"><span class="glyphicon glyphicon-home"></span> <%= nrSpaces %></span>
-					<span style="margin:5px;" class="label label-default btn"><span class="glyphicon glyphicon-upload"></span> <%= nrUploads %></span>
-					<span style="margin:5px;" class="label label-default btn"><span class="glyphicon glyphicon-hdd"></span> <%= totalSize %> GB</span>
-				</div>
+			<div style="margin-bottom:5px; position:fixed; top:5px; left:5px;">
+				<span class="label label-default btn"><span class="glyphicon glyphicon-home"></span> <%= nrSpaces %></span>
+				<span class="label label-default btn"><span class="glyphicon glyphicon-upload"></span> <%= nrUploads %></span>
+				<span class="label label-default btn"><span class="glyphicon glyphicon-hdd"></span> <%= totalSize %> GB</span>
 			</div>
 			<div class="container">
 				<a href="/">

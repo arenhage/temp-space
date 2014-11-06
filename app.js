@@ -47,7 +47,7 @@ conn.once('open', function callback () {
 	var app 				= express();
 	var routes 				= require('./routes/index');
 	var routeSpace			= require('./routes/space');
-	var periodicClearning 	= require('./application/jobs/periodicClearing');
+	var periodicClearning 	= require('./application/services/periodicClearing');
 	
 	//express configuration ===========================================
 	logger.info("Configuring express app...");

@@ -1,9 +1,10 @@
 //Space Routes =================================================
-var Space 		= require('../application/schema-models/sm_space').Space;
-var FSFile 		= require('../application/schema-models/sm_files').FSFile;
-var mongoose	= require('mongoose');
-var fs 			= require('fs');
-var logger 		= require('log4js').getLogger();
+var Space 				= require('../application/schema-models/sm_space').Space;
+var FSFile 				= require('../application/schema-models/sm_files').FSFile;
+var StatisticsService	= require('../application/services/statisticsService');
+var mongoose			= require('mongoose');
+var fs 					= require('fs');
+var logger 				= require('log4js').getLogger();
 
 //gridfs ===========================================
 var gfs = global.gridfs;
@@ -62,23 +63,34 @@ exports.add = function(req, res) {
 		obj.save(function(err, data) {
 			if (err) {
 				logger.error(err);
-				res.render('index', {
-					spaceId: req.body.spaceId,
-					err: JSON.stringify({err:"Unable To Create Space"}),
-					title: global.config.basic.appName
+				Statistics.findOne({}, function(err, doc) {
+					res.render('index', {
+						spaceId: req.body.spaceId,
+						err: JSON.stringify({err:"Unable To Create Space"}),
+						title: global.config.basic.appName,
+						nrSpaces:doc.spacesSinceBeginning,
+						nrUploads:doc.filesUploadedSinceBeginning,
+						totalSize:doc.filesTotalSizeSinceBeginning.toFixed(2)
+					});	
 				});
 			}
 			else {
+				StatisticsService.incSpaces();
 				res.redirect('/space/'+req.body.spaceId);	
 			}
 		});
 	}
 	else {
 		logger.warn({"req.body.spaceId":req.body.spaceId});
-		res.render('index', {
-			spaceId: req.body.spaceId,
-			err: JSON.stringify({err:"Unable To Create Space"}),
-			title: global.config.basic.appName
+		Statistics.findOne({}, function(err, doc) {
+			res.render('index', {
+				spaceId: req.body.spaceId,
+				err: JSON.stringify({err:"Unable To Create Space"}),
+				title: global.config.basic.appName,
+				nrSpaces:doc.spacesSinceBeginning,
+				nrUploads:doc.filesUploadedSinceBeginning,
+				totalSize:doc.filesTotalSizeSinceBeginning.toFixed(2)
+			});
 		});
 	}
 };
@@ -93,6 +105,7 @@ exports.upload = function(req, res) {
 			uploadDateMillis: new Date().getTime()
 		}
 	}).on('close', function(file) {
+		StatisticsService.incFilesAndSize(file.length * 0.000000001);	//byte to megabyte
 		res.send(file);
 	});
 
@@ -115,12 +128,16 @@ exports.download = function(req, res) {
 				res.send("Unable to obtain file, file is missing...");
 			}
 			else {
-				res.setHeader('Content-type', data.contentType);
-				res.setHeader('Content-disposition', 'attachment; filename=' + data.filename);
-				var readstream = gfs.createReadStream({
-					_id: req.params.filesId,
-				});
-				readstream.pipe(res);	
+				try {
+					res.setHeader('Content-type', data.contentType);
+					res.setHeader('Content-disposition', 'attachment; filename=' + data.filename);
+					var readstream = gfs.createReadStream({
+						_id: req.params.filesId,
+					});
+					readstream.pipe(res);	
+				} catch(e) {
+					logger.error(e);
+				}
 			}
 		});
 	}

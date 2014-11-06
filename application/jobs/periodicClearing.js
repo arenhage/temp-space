@@ -10,7 +10,7 @@ var logger 		= require('log4js').getLogger();
 var gfs	= global.gridfs;
 
 schedule.scheduleJob("*/10 * * * *", function() {
-	logger.info("Running periodic clearning...")
+	logger.info("Running periodic cleaning...")
 	var offset = Space.schema.paths.createdAt.options.expires * 1000;
 	var now = new Date().getTime();
 	var tail = now - offset;
@@ -27,9 +27,10 @@ schedule.scheduleJob("*/10 * * * *", function() {
 					});
 				}
 			}
-			logger.info("Files removed: " + filesRemoved);
 		});
 	} catch(e) {
 		logger.error(e);
 	}
+	
+	logger.info("Files removed: " + filesRemoved);
 });

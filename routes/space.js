@@ -13,41 +13,36 @@ exports.list = function(req, res) {
 	if(req.params.spaceId) {
 		Space.findBySpaceId(req.params.spaceId, function (err, data) {
 			if(data != null) {
-
-				//using mongoose
-//				FSFile.findByMetadataSpaceId(req.params.spaceId, function (err, files) {
-//					res.render('space', { 
-//						space: data,
-//						files: JSON.stringify(files),
-//						spaceId: req.params.spaceId,
-//						title: global.config.basic.appName
-//					});	
-//				});
-
 				//using gfs
 				gfs.files.find({ 'metadata.spaceId': req.params.spaceId}).toArray(function (err, files) {
 					if(err) {
 						logger.error(err);
-						res.send("ERROR");
+						res.send({err:"unable to read file"});
 					}
 					else {
 						var offset = Space.schema.paths.createdAt.options.expires * 1000;
 						var expireAt = new Date(data.createdAt).getTime()+offset;
-						res.render('space', { 
+						var ret = { 
 							space: data,
 							expireAt: expireAt,
 							files: JSON.stringify(files),
 							spaceId: req.params.spaceId,
 							title: global.config.basic.appName
-						});
+						};
+						
+						if(req.query.asjson === 'true') res.send(ret);
+						else res.render('space', ret);
 					}
 				})
 			}
 			else {
-				res.render('notavailable', {
+				var ret = {
 					spaceId: req.params.spaceId,
 					title: global.config.basic.appName
-				});
+				};
+				
+				if(req.query.asjson === 'true') res.send(ret)
+				else res.render('notavailable', ret);
 			}
 		});
 	}
@@ -142,7 +137,7 @@ exports.download = function(req, res) {
 		});
 	}
 	else {
-		res.send("ERROR");
+		res.send({err:"invalid file id"});
 	}
 };
 

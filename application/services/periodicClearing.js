@@ -9,8 +9,7 @@ var logger 		= require('log4js').getLogger();
 //gridfs ===========================================
 var gfs	= global.gridfs;
 
-schedule.scheduleJob("*/10 * * * *", function() {
-	logger.info("Running periodic cleaning...")
+setInterval(function() {
 	var offset = Space.schema.paths.createdAt.options.expires * 1000;
 	var now = new Date().getTime();
 	var tail = now - offset;
@@ -32,5 +31,5 @@ schedule.scheduleJob("*/10 * * * *", function() {
 		logger.error(e);
 	}
 	
-	logger.info("Files removed: " + filesRemoved);
-});
+	logger.info("Running periodic cleaning. Files removed: " + filesRemoved);
+}, 60000*10);

@@ -1,5 +1,4 @@
 //schedules ===========================================
-var schedule 	= require('node-schedule');
 var Space 		= require('../schema-models/sm_space').Space;
 var FSFile 		= require('../schema-models/sm_files').FSFile;
 var mongoose	= require('mongoose');
@@ -13,7 +12,6 @@ setInterval(function() {
 	var offset = Space.schema.paths.createdAt.options.expires * 1000;
 	var now = new Date().getTime();
 	var tail = now - offset;
-	var filesRemoved = 0;
 	
 	try {
 		FSFile.findByUploadDateLessThan(tail, function (err, files) {
@@ -22,7 +20,6 @@ setInterval(function() {
 				for(file_index in files) {
 					gfs.remove({'_id':files[file_index]._id}, function (err) {
 						if(err) logger.error(err);
-						else filesRemoved++;
 					});
 				}
 			}
@@ -30,6 +27,4 @@ setInterval(function() {
 	} catch(e) {
 		logger.error(e);
 	}
-	
-	logger.info("Running periodic cleaning. Files removed: " + filesRemoved);
 }, 60000*10);

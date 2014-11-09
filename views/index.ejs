@@ -54,14 +54,12 @@
 		<div class="container">
 			<div class="row row-centered">
 				<div class="col-xs-12 col-md-12 col-centered">
+					<p class="text-muted">To create your tmp-space, simply add random identifier in the field below, or generate one with the button to the right and hit go!</p>
 					<form action="/space", method="POST">
 						<div class="input-group input-group-md">
-							<span class="input-group-addon"><span class="glyphicon glyphicon-link"></span></span>
-							
 							<input type="text" placeholder="Enter Random Space Identifier" name="spaceId" id="spaceId" class="form-control">
-							
 							<span class="input-group-btn">
-								<button class="btn btn-default" type="button" onclick='Index.setRandomIdentifier("spaceId")'>
+								<button title="Generate random identifier" class="btn btn-default" type="button" onclick='Index.setRandomIdentifier("spaceId")'>
 									<span class="glyphicon glyphicon-refresh">
 								</button>
 								<button class="btn btn-default" type="submit" onclick=''>Go!</button>

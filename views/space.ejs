@@ -1,113 +1,40 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title><%= title %></title>
-		
-		<!-- jquery -->
-		<script type="text/javascript" src='/js/lib/jquery-1.11.1.min.js'></script>
-		
-		<!-- bootstrap -->
-		<link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
-		<link rel='stylesheet' href='/stylesheets/sticky-footer-navbar.css' />
-		<script type="text/javascript" src='/js/lib/bootstrap.min.js'></script>
-		
-		<!-- dropzone -->
-		<link rel="stylesheet" href="/stylesheets/dropzone/dropzone.css">
-		<link rel="stylesheet" href="/stylesheets/dropzone/basic.css">
-		<script type="text/javascript" src="/js/lib/dropzone/dropzone.js"></script>
-		
-		<!-- toastr -->
-		<link rel="stylesheet" href="/stylesheets/toastr.min.css">
-		<script type="text/javascript" src="/js/lib/toastr.min.js"></script>
-		
-		<!-- countdown -->
-		<script type="text/javascript" src="/js/lib/countdown/jquery.countdown.min.js"></script>
-		
-		<!-- share-button -->
-		<link rel="stylesheet" href="/stylesheets/jquery.share.css">
-		<script type="text/javascript" src="/js/lib/jquery.share.js"></script>
-		
-		<!-- custom -->
-		<link rel='stylesheet' href='/stylesheets/style.css' />
-		<script src='/js/misc/util.js'></script>
-		<script src='/js/misc/temp-space.js'></script>
-		<script src='/js/space.js' type='text/javascript'></script>
-	</head>
-	<body>
+<% layout('layout') -%>
+<script src='/js/space.js' type='text/javascript'></script>
 
-		<div class="jumbotron">
-			<div class="container">
-				<a href="/">
-					<img src="/images/logo.png" alt="Responsive image" height="160" width="160" class="img-responsive center-block"></img>
-				</a>
-				<h3 class="text-center"><strong><%= title %></strong> is what it is... a temporary sharable file space.</h3>
-				<div class="text-center">
-					<strong>Time Until Expire</strong> <span id="clock"></span>
-				</div>
+<div class="container">
+	<div class="operations">
+		<span style="cursor:pointer;" class="label label-warning label-spacing" onclick="Util.copyUrlToClipboard();">
+			Copy Link
+		</span>
+	</div>
+	<span class="share-button"></span>
+	<%if (space != null) { %>
+		<div id="simpleUpload">
+			<div id="dropzone">
+				<form action="/space/file/upload" class="dropzone" id="my-dropzone">
+					<input type="hidden" name="spaceId" value="<%= spaceId %>">
+				</form>
 			</div>
 		</div>
+	<% } else { %>  
+		<h1 class="text-center">Invalid...</h1>
+	<% } %>
+</div>
+
+<script>
+	$(document).ready(function() {
+		Space.files = <%- files %>;
+		Space.initDropzone(Space.files);
+		$('#timeExpire').show();
+		toastr.options.positionClass = 'toast-bottom-right'
 		
-		<div class="container">
-			<div class="operations">
-				<span style="cursor:pointer;" class="label label-warning label-spacing" onclick="Util.copyUrlToClipboard();">
-					Copy Link
-				</span>
-			</div>
-			<span class="share-button"></span>
-			<%if (space != null) { %>
-				<div id="simpleUpload">
-					<div id="dropzone">
-						<form action="/space/file/upload" class="dropzone" id="my-dropzone">
-							<input type="hidden" name="spaceId" value="<%= spaceId %>">
-						</form>
-					</div>
-				</div>
-			<% } else { %>  
-				<h1 class="text-center">Invalid...</h1>
-			<% } %>
-		</div>
-		
-		<div style="padding-top:5px;">
-			<div class="footer">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-6">
-							<div id="social-bar" class="social-bar text-center"></div>
-						</div>
-						<div class="col-md-6">
-							<p class="text-muted text-center">
-								<a href='#'>Daniel Arenhage</a> 2014
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<script>
-			$(document).ready(function() {
-				Space.files = <%- files %>;
-				Space.initDropzone(Space.files);
-				toastr.options.positionClass = 'toast-bottom-right'
-				
-				var expireAt = <%= expireAt %>;
-				$('#clock').countdown(expireAt).on('update.countdown', function(event) {
-					var $this = $(this).html(event.strftime(
-							'<font size="6"><span class="label">%M</span></font>' + 
-							'<font size="5">:</font>' + 
-							'<font size="6"><span class="label">%S</span></font>'
-					));
-				});
-				
-				$('#social-bar').share({
-					networks: ['email','pinterest','googleplus','digg','facebook','twitter','linkedin'],
-			        theme: 'square',
-			        urlToShare: window.location.href
-			    });
-			});
-		</script>
-	</body>
-</html>
+		var expireAt = <%= expireAt %>;
+		$('#clock').countdown(expireAt).on('update.countdown', function(event) {
+			var $this = $(this).html(event.strftime(
+					'<font size="6"><span class="label">%M</span></font>' + 
+					'<font size="5">:</font>' + 
+					'<font size="6"><span class="label">%S</span></font>'
+			));
+		});
+	});
+</script>

@@ -1,131 +1,54 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title><%= title %></title>
-		
-		<!-- jquery -->
-		<script type="text/javascript" src='/js/lib/jquery-1.11.1.min.js'></script>
-		
-		<!-- bootstrap -->
-		<link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
-		<link rel='stylesheet' href='/stylesheets/sticky-footer-navbar.css' />
-		<script type="text/javascript" src='/js/lib/bootstrap.min.js'></script>
-		
-		<!-- dropzone -->
-		<link rel="stylesheet" href="/stylesheets/dropzone/dropzone.css">
-		<link rel="stylesheet" href="/stylesheets/dropzone/basic.css">
-		<script type="text/javascript" src="/js/lib/dropzone/dropzone.js"></script>
-		
-		<!-- toastr -->
-		<link rel="stylesheet" href="/stylesheets/toastr.min.css">
-		<script type="text/javascript" src="/js/lib/toastr.min.js"></script>
-		
-		<!-- countdown -->
-		<script type="text/javascript" src="/js/lib/countdown/jquery.countdown.min.js"></script>
-		
-		<!-- share-button -->
-		<link rel="stylesheet" href="/stylesheets/jquery.share.css">
-		<script type="text/javascript" src="/js/lib/jquery.share.js"></script>
-		
-		<!-- custom -->
-		<link rel='stylesheet' href='/stylesheets/style.css' />
-		<script src='/js/misc/util.js'></script>
-		<script src='/js/misc/temp-space.js'></script>
-		<script src='/js/index.js'></script>
-	</head>
-	<body>
-		<div class="jumbotron">
-			<div style="margin-bottom:5px; position:absolute; top:5px; left:5px;">
-				<span class="label label-default btn"><span class="glyphicon glyphicon-home"></span> <%= nrSpaces %></span>
-				<span class="label label-default btn"><span class="glyphicon glyphicon-upload"></span> <%= nrUploads %></span>
-				<span class="label label-default btn"><span class="glyphicon glyphicon-hdd"></span> <%= totalSize %> GB</span>
-			</div>
-			<div class="container">
-				<a href="/">
-					<img src="/images/logo.png" alt="Responsive image" height="160" width="160" class="img-responsive center-block"></img>
-				</a>
-				<h3 class="text-center"><strong><%= title %></strong> is what it is... a temporary sharable file space.</h3>
-			</div>
-		</div>
-		
-		<div class="container">
-			<div class="row row-centered">
-				<div class="col-xs-12 col-md-12 col-centered">
-					<p class="text-muted">To create your tmp-space, simply add random identifier in the field below, or generate one with the button to the right and hit go!</p>
-					<form action="/space", method="POST">
-						<div class="input-group input-group-md">
-							<input type="text" placeholder="Enter Random Space Identifier" name="spaceId" id="spaceId" class="form-control">
-							<span class="input-group-btn">
-								<button title="Generate random identifier" class="btn btn-default" type="button" onclick='Index.setRandomIdentifier("spaceId")'>
-									<span class="glyphicon glyphicon-refresh">
-								</button>
-								<button class="btn btn-default" type="submit" onclick=''>Go!</button>
-							</span>
-						</div>
-					</form>
+<% layout('layout') -%>
+<script src='/js/index.js'></script>
+
+<div class="container">
+	<div class="row row-centered">
+		<div class="col-xs-12 col-md-12 col-centered">
+			<p class="text-muted">To create your tmp-space, simply add random identifier in the field below, or generate one with the button to the right and hit go!</p>
+			<form action="/space", method="POST">
+				<div class="input-group input-group-md">
+					<input type="text" placeholder="Enter Random Space Identifier" name="spaceId" id="spaceId" class="form-control">
+					<span class="input-group-btn">
+						<button title="Generate random identifier" class="btn btn-default" type="button" onclick='Index.setRandomIdentifier("spaceId")'>
+							<span class="glyphicon glyphicon-refresh">
+						</button>
+						<button class="btn btn-default" type="submit" onclick=''>Go!</button>
+					</span>
 				</div>
-			</div>
-			<div class="row row-centered">
-				<div class="col-xs-12 col-md-12 col-centered">
-					<div class="page-header">
-						<h2>About</h2>
-					</div>
-					<p>
-						<font size="4">
-							All files uploaded to tmp-space is only stored during a short period of it time.
-							When your tmp-space is no longer available, any files uploaded to that space is also removed.
-						</font>
-					</p>
-					
-					<p>
-						<font size="3">
-							Any use or reliance on any content or materials uploaded to tmp-space 
-							or obtained by you through tmp-space is at your own risk.
-						</font>
-					</p>
-					
-					<!--<p>
-						<font size="3">
-							Under no circumstances will tmp-space be liable in any way for any content, 
-							including, but not limited to, any errors or omissions in any content, 
-							or any loss or damage of any kind incurred as a result of the use of any content uploaded, 
-							emailed, transmitted or otherwise made available via the tmp-space or broadcast elsewhere.
-						</font>
-					</p>-->
-				</div>
-			</div>
+			</form>
 		</div>
-		
-		<div style="padding-top:5px;">
-			<div class="footer">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-6">
-							<div id="social-bar" class="social-bar text-center"></div>
-						</div>
-						<div class="col-md-6">
-							<p class="text-muted text-center">
-								<a href='#'>Daniel Arenhage</a> 2014
-							</p>
-						</div>
-					</div>
-				</div>
+	</div>
+	<div class="row row-centered">
+		<div class="col-xs-12 col-md-12 col-centered">
+			<div class="page-header">
+				<h2>About</h2>
 			</div>
+			<p>
+				<font size="4">
+					All files uploaded to tmp-space is only stored during a short period of it time.
+					When your tmp-space is no longer available, any files uploaded to that space is also removed.
+				</font>
+			</p>
+			
+			<p>
+				<font size="3">
+					Any use or reliance on any content or materials uploaded to tmp-space 
+					or obtained by you through tmp-space is at your own risk.
+				</font>
+			</p>
+			
+			<!--<p>
+				<font size="3">
+					Under no circumstances will tmp-space be liable in any way for any content, 
+					including, but not limited to, any errors or omissions in any content, 
+					or any loss or damage of any kind incurred as a result of the use of any content uploaded, 
+					emailed, transmitted or otherwise made available via the tmp-space or broadcast elsewhere.
+				</font>
+			</p>-->
 		</div>
-		
-		<script>
-			$(document).ready(function() {
-				toastr.options.positionClass = 'toast-bottom-right'
-				
-				$('#social-bar').share({
-					networks: ['email','pinterest','googleplus','digg','facebook','twitter','linkedin'],
-			        theme: 'square',
-			        urlToShare: window.location.href
-			    });
-			});
-		</script>
-	</body>
-</html>
+	</div>
+</div>
+
+<script>
+	toastr.options.positionClass = 'toast-bottom-right'
+</script>

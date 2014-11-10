@@ -2,8 +2,9 @@
 var express 	= require('express');
 var http 		= require('http')
 var path		= require('path');
+var engine 			= require('ejs-locals')
 var mongoose	= require('mongoose');
-var log4js 		= require("log4js");
+var log4js 		= require('log4js');
 var Grid 		= require('gridfs-stream');
 var config 		= require('./config.json');
 
@@ -62,6 +63,7 @@ conn.once('open', function callback () {
 		app.use(express.errorHandler());
 	}
 	
+	app.engine('ejs', engine);
 	app.set('port', process.env.PORT || config.express.port);
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'ejs');

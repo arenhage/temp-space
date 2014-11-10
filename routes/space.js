@@ -2,6 +2,7 @@
 var Space 				= require('../application/schema-models/sm_space').Space;
 var FSFile 				= require('../application/schema-models/sm_files').FSFile;
 var StatisticsService	= require('../application/services/statisticsService');
+var Statistics			= require('../application/schema-models/sm_statistics').Statistics;
 var mongoose			= require('mongoose');
 var fs 					= require('fs');
 var logger 				= require('log4js').getLogger();
@@ -31,7 +32,14 @@ exports.list = function(req, res) {
 						};
 						
 						if(req.query.asjson === 'true') res.send(ret);
-						else res.render('space', ret);
+						else {
+							Statistics.findOne({}, function(err, doc) {
+								ret.nrSpaces = doc.spacesSinceBeginning;
+								ret.nrUploads = doc.filesUploadedSinceBeginning;
+								ret.totalSize = doc.filesTotalSizeSinceBeginning.toFixed(2);
+								res.render('space', ret);
+							});
+						}
 					}
 				})
 			}
@@ -42,7 +50,14 @@ exports.list = function(req, res) {
 				};
 				
 				if(req.query.asjson === 'true') res.send(ret)
-				else res.render('notavailable', ret);
+				else {
+					Statistics.findOne({}, function(err, doc) {
+						ret.nrSpaces = doc.spacesSinceBeginning;
+						ret.nrUploads = doc.filesUploadedSinceBeginning;
+						ret.totalSize = doc.filesTotalSizeSinceBeginning.toFixed(2);
+						res.render('notavailable', ret);
+					});
+				}
 			}
 		});
 	}

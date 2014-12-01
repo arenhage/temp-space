@@ -85,6 +85,9 @@ conn.once('open', function callback () {
 	//create a new space
 	app.post('/space', routeSpace.add);
 	
+	//show file	
+	//app.get('/space/file/download/:filesId/', routeSpace.show);
+	
 	//download file	
 	app.get('/space/file/download/:filesId', routeSpace.download);
 	

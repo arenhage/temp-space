@@ -86,10 +86,10 @@ conn.once('open', function callback () {
 	app.post('/space', routeSpace.add);
 	
 	//show file	
-	//app.get('/space/file/download/:filesId/', routeSpace.show);
+	app.get('/space/file/:filesId', routeSpace.file);
 	
 	//download file	
-	app.get('/space/file/download/:filesId', routeSpace.download);
+	//app.get('/space/file/download/:filesId', routeSpace.download);
 	
 	//download file	
 	app.post('/space/file/remove', routeSpace.remove);

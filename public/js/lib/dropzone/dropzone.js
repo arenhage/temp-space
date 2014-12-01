@@ -443,7 +443,9 @@ require.register("dropzone/lib/dropzone.js", function (exports, module) {
         	  file.previewTemplate.appendChild(Dropzone.createElement('<div hidden class="dz-files-id"><span data-dz-files-id>' + file.files_id + '</span></div>'));
         	  if (this.options.addDownloadLinks) {
         		  file._downloadLink = Dropzone.createElement('<a class="dz-download btn btn-primary btn-xs btnSpacing" href="' + file.downloadLink + '"><span class="glyphicon glyphicon-download-alt"></span></a>');
+        		  file._showLink = Dropzone.createElement('<a class="dz-download btn btn-warning btn-xs btnSpacing" href="' + file.showLink + '"><span class="glyphicon glyphicon glyphicon-eye-open"></span></a>');
         		  file.previewElement.appendChild(file._downloadLink);
+        		  file.previewElement.appendChild(file._showLink);
         	  }
           }
           removeFileEvent = (function(_this) {

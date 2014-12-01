@@ -83,8 +83,10 @@ var Space = {
 							var xhr = file.xhr;
 							var json = JSON.parse(xhr.response);
 							if (this.options.addDownloadLinks) {
-								file._downloadLink = Dropzone.createElement('<a class="dz-download btn btn-primary btn-xs btnSpacing" href="/space/file/download/' + json._id + '"><span class="glyphicon glyphicon-download-alt"></span></a>');
+								file._downloadLink = Dropzone.createElement('<a class="dz-download btn btn-primary btn-xs btnSpacing" href="/space/file/' + json._id + '?download=true"><span class="glyphicon glyphicon-download-alt"></span></a>');
+								file._showLink = Dropzone.createElement('<a class="dz-download btn btn-warning btn-xs btnSpacing" href="/space/file/' + json._id + '"><span class="glyphicon glyphicon glyphicon-eye-open"></span></a>');
 								file.previewElement.appendChild(file._downloadLink);
+								file.previewElement.appendChild(file._showLink);
 							}
 							file.previewTemplate.appendChild(Dropzone.createElement('<div hidden class="dz-files-id"><span data-dz-files-id>' + json._id + '</span></div>'));
 							Space.addDeleteEvent(file.previewTemplate);
@@ -97,7 +99,8 @@ var Space = {
 									name: files[i].filename,
 									size: files[i].length,
 									type: files[i].contentType,
-									downloadLink: '/space/file/download/'+files[i]._id 
+									showLink: '/space/file/'+files[i]._id,
+									downloadLink: '/space/file/'+files[i]._id+'?download=true'
 							};
 							// Call the default addedfile event handler
 							self.options.addedfile.call(self, mockFile);

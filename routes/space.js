@@ -130,7 +130,7 @@ exports.upload = function(req, res) {
 	.pipe(writestream);	//pipe it to gfs writestream and store it in the database
 };
 
-exports.download = function(req, res) {
+exports.file = function(req, res) {
 	if(req.params.filesId) {
 		FSFile.findOne({'_id':req.params.filesId}, function (err, data) {
 			if(err) {
@@ -139,8 +139,10 @@ exports.download = function(req, res) {
 			}
 			else {
 				try {
-					res.setHeader('Content-type', data.contentType);
-					res.setHeader('Content-disposition', 'attachment; filename=' + data.filename);
+					if(req.query.download && req.query.download == 'true') {
+						res.setHeader('Content-type', data.contentType);
+						res.setHeader('Content-disposition', 'attachment; filename=' + data.filename);	
+					}
 					var readstream = gfs.createReadStream({
 						_id: req.params.filesId,
 					});

@@ -21,5 +21,6 @@ A reference project learning NodeJS + Express + Mongo GridFS.
 #!javascript
 
 > cd temp-space
-> node
+> npm install
+> npm start
 ```

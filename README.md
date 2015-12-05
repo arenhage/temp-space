@@ -18,8 +18,6 @@ A reference project learning NodeJS + Express + Mongo GridFS.
 * Clone the repository.
 
 ```
-#!javascript
-
 > cd temp-space
 > npm install
 > npm start
